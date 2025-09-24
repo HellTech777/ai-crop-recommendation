@@ -130,14 +130,8 @@ def recommend_crop(city_input, yield_quintals=10):
     price = get_market_price(best_crop)
     profit = yield_quintals * price if not np.isnan(price) else None
 
-    # Try to get image filename from crop dataset
-    image_col = guess_col(crop_df, ['image', 'image_file', 'image_name'])
-    image_row = crop_df[crop_label_col].str.lower() == best_crop.lower()
-
-    if image_col and not crop_df[image_row].empty:
-        image_file = crop_df.loc[image_row, image_col].values[0]
-    else:
-        image_file = "default.jpg"
+    # Auto-generate image filename from crop name
+    image_file = f"{best_crop.strip().lower()}.jpg"
 
     # Return structured result
     return {
@@ -160,4 +154,5 @@ def get_available_cities():
     cities = soil_df["city"].dropna().astype(str).str.strip()
     cities = cities[cities != ""]
     return sorted(cities.str.title().unique())
+
 
