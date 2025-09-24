@@ -132,6 +132,9 @@ def recommend_crop(city_input, yield_quintals=10):
 
     # Auto-generate image filename from crop name
     image_file = f"{best_crop.strip().lower()}.jpg"
+    image_path = os.path.join(BASE_DIR, "static", "images", image_file)
+    if not os.path.exists(image_path):
+        image_file = "placeholder.jpg"
 
     # Return structured result
     return {
@@ -154,5 +157,6 @@ def get_available_cities():
     cities = soil_df["city"].dropna().astype(str).str.strip()
     cities = cities[cities != ""]
     return sorted(cities.str.title().unique())
+
 
 
