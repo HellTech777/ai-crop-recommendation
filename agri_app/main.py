@@ -29,7 +29,18 @@ async def recommend(request: Request, city: str = Form(...), yield_q: float = Fo
     "result": {
         "crop": best_crop,
         "image": image_file,
-        ...
+        "city": city,
+        "temp": temperature,
+        "humidity": humidity,
+        "soil": {
+            "n": n,
+            "p": p,
+            "k": k,
+            "ph": ph,
+            "rainfall": rainfall
+        },
+        "price": modal_price,
+        "profit": estimated_profit
     }
 })
 
@@ -41,5 +52,6 @@ def allow_head_for_get(route: APIRoute):
 for route in app.routes:
     if isinstance(route, APIRoute):
         allow_head_for_get(route)
+
 
 
