@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Crop Recommendation</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h2>🌾 AI Crop Recommendation</h2>
+   	<form method="post" action="/recommend">
+  		<label for="city">City:</label>
+  		<input type="text" id="city" name="city" required>
+
+  		<label for="yield_q">Expected Yield (quintals):</label>
+  		<input type="number" id="yield_q" name="yield_q" required>
+
+  		<button type="submit">Get Recommendation</button>
+	</form>
+</body>
+</html>
