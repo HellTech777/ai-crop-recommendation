@@ -24,3 +24,13 @@ def index(request: Request):
 async def recommend(request: Request, city: str = Form(...), yield_q: float = Form(...)):
     result = recommend_crop(city, yield_q)
     return templates.TemplateResponse("result.html", {"request": request, "result": result})
+
+# Patch to allow HEAD requests on GET routes
+def allow_head_for_get(route: APIRoute):
+    if "GET" in route.methods:
+        route.methods.add("HEAD")
+
+for route in app.routes:
+    if isinstance(route, APIRoute):
+        allow_head_for_get(route)
+
