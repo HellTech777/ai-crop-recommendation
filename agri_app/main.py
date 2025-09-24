@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi.routing import APIRoute
 from agri_app.your_model_code import recommend_crop, get_available_cities  # adjust if file is renamed
 
 app = FastAPI()
@@ -23,7 +24,14 @@ def index(request: Request):
 @app.post("/recommend", response_class=HTMLResponse)
 async def recommend(request: Request, city: str = Form(...), yield_q: float = Form(...)):
     result = recommend_crop(city, yield_q)
-    return templates.TemplateResponse("result.html", {"request": request, "result": result})
+    return templates.TemplateResponse("result.html", {
+    "request": request,
+    "result": {
+        "crop": best_crop,
+        "image": image_file,
+        ...
+    }
+})
 
 # Patch to allow HEAD requests on GET routes
 def allow_head_for_get(route: APIRoute):
@@ -33,4 +41,5 @@ def allow_head_for_get(route: APIRoute):
 for route in app.routes:
     if isinstance(route, APIRoute):
         allow_head_for_get(route)
+
 
